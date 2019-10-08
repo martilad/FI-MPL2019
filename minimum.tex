@@ -1,0 +1,79 @@
+\documentclass[12pt,twoside,a4paper]{article}
+
+\usepackage[utf8]{inputenc} % LaTeX source encoded as UTF-8
+\usepackage[czech]{babel}
+\usepackage{graphicx} %graphics files inclusion
+
+\usepackage{dirtree} %directory tree visualisation
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{multirow}
+\usepackage{mathtools}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+\usepackage{todonotes}
+\usepackage{enumitem}
+\usepackage{lscape}
+
+\usepackage{url}
+\usepackage{hyperref}
+\hypersetup{breaklinks=true}
+\urlstyle{same}
+\usepackage{cite}
+
+
+\floatname{algorithm}{Algoritmus}
+\algnewcommand\algorithmicforeach{\textbf{for each}}
+\algdef{S}[FOR]{ForEach}[1]{\algorithmicforeach\ #1\ \algorithmicdo}
+
+\newcommand\grsize{0.95}
+
+\raggedbottom
+\clubpenalty 10000
+\widowpenalty 10000
+
+\newcommand{\tg}{\mathop{\mathrm{tg}}} %cesky tangens
+\newcommand{\cotg}{\mathop{\mathrm{cotg}}} %cesky cotangens
+
+
+\input macro.tex %couple of macros for formatting the dissertation thesis,
+                    %your personal and specific macros can be placed also there
+
+\newcommand\Title{Název}
+\newcommand\Name{Jméno}
+\newcommand\Program{Znalostní inženýrství}
+\newcommand\Department{Katedra aplikované matematiky}
+\newcommand\Faculty{Fakulta informačních technologií}
+\newcommand\University{České vysoké učení technické v Praze}
+
+\begin{document}
+\coverpagestarts
+\pagebreak
+\tableofcontents
+\pagebreak
+%\listoffigures
+%\listoftables
+
+%----------------------------------------------------------------------------------------------------------
+% Chapters start here
+\section{Ahoj}
+ahoj
+\cite{SOME}
+%------------------------------------------------------------------------------------------
+% Use bibtex to produce bibliography used in the thesis, except for your own publications 
+\pagebreak
+%------------------------------------------------------------------------------------------
+
+
+\bibliographystyle{plain}
+\begin{thebibliography}{1}
+\bibitem{dtp}{\em Herout, P.:}
+               {\bf Příprava textů počítačem II.} \\
+           Vydavatelství Západočeské univerzity,
+           Plzeň~1998
+  \bibitem{cstug}{\em Dokumentace na
+               serveru sdružení CSTUG}\\
+               \texttt{http://www.cstug.cz/}
+\end{thebibliography}
+%------------------------------------------------------------------------------------------
+\end{document}
