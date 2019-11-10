@@ -81,17 +81,22 @@ Dále agent musí mít nějaké cíle, kterých se snaží dosáhnout. Tyto cíl
  \end{figure}	
 
 
-Ve strojovém učení (dále jen ML) je v \cite{sutton1999reinforcement} jako první zmíněna funkce generující odměnu pro agenta (nutná součást prostředí), protože každý agent je na základě svých akcích odměnován. V ML je nejčastěji odměnou celé číslo, které se spjato s nějakým stavem a akcí. Stavem je popsáno aktuální prostředí, které muže daný agent pozorovat např. rozehraná šachová partie. Ja je vidět na oprázku \ref{zavislostKnnRec}, stav je nějak interpretován a to nejčastěji nějakými senzory agenta. 
+Ve strojovém učení (dále jen ML) je v \cite{sutton1999reinforcement} jako první zmíněna funkce generující odměnu pro agenta (nutná součást prostředí), protože každý agent je na základě svých akcích odměnován. V ML je nejčastěji odměnou celé číslo, které se spjato s nějakým stavem a akcí. Stavem je popsáno aktuální prostředí, které muže daný agent pozorovat např. rozehraná šachová partie. Ja je vidět na obrázku \ref{zavislostKnnRec}, stav je nějak interpretován a to nejčastěji nějakými senzory agenta.
+ 
 
 Odměna pro agenta je vždy svázána se stavem a konkrétní akcí. Tento koncept stavů a akcí je velice obecný. Akce je  agentovo jakékoliv rozhodnutí, které agent může vykonat s stav je jakýkoliv fakt, který může vzít agent v úvahu při rozhodování \cite{sutton1999reinforcement}. 
 
-V ML je ohodnocení poměrně omezené oproti reálnému světu. Například při výcviku psa by jako pozitivní vazba pochvala příliž nefungovala, ale na nějaký pamlsek už reaguje většina psů. U lidí je množina možných odměn ještě rozsáhlejší a může být představována slovní pochvalou, finanční odměnou a mnoho dalšími. Vytvořit funkci v ML, která by toto zahrnovala je velice optížné až nemožné. Prostředí s odměnami je omezováno a většinou vždy specializováno na pár konkrétních cílů, kterých se daří dosahovat po učení. Více v kapitole \ref{sec:priklady}.
+V ML je ohodnocení poměrně omezené oproti reálnému světu. Zpětnou vazbu můžeme rozdělit například na Objektivní a subjektivní zpětnou vazbu. Při objektivní zpětné vazbě nevznikají pochyby a v případě ML je zpětná vazba vdy objektivní daná funkcí. Například tabulka s jasně danými odměnami. Subjektivní zpětná vazba může vyvolat pochyby o její důležitosti a pravosti, muže to být napřiklad pouze špatné rozhodnutí. V biologickém světě je mnohem častější. Jako příklad mě napadájí například odměny v práci, které můžou představovat objektivní zpětnou vazbu, kdy je závislá na počtu vyrobených kusů. Nebo subjektivní, kdy rozhoduje napřiklad manažer nad vámi.
+
+Například při výcviku psa by jako pozitivní vazba pochvala příliž nefungovala, ale na nějaký pamlsek už reaguje většina psů. U lidí je množina možných odměn ještě rozsáhlejší a může být představována slovní pochvalou, finanční odměnou a mnoho dalšími. Vytvořit funkci v ML, která by toto zahrnovala je velice optížné až nemožné. Prostředí s odměnami je omezováno a většinou vždy specializováno na pár konkrétních cílů, kterých se daří dosahovat po učení. Více v kapitole \ref{sec:priklady}.
 
 
 \subsection{Agent}
 Agent je součástí konkrétního prostředí. Hlavním cílem agenta je mapování možných stavů na možné akce \cite{sutton1999reinforcement}. V ML může být implementováno například tabulkou nebo měnícím se prostředím. Jedná se asociace, které známe i z našeho života. 
 
-Agenti mají většinou nějaké senzory, kterými pozorují okolní prostředí. Jako agenta v prostředí můžeme například uvažovat samořídící auto, které má různé senzory, pomocí kterých se orientuje v prostoru (lidar, radar, kamery , atd\dots). Pro takového agenta je možné použít RL na jeho učení. Většinou není použito pouse RL, ale i další metody učení, tak že prostor akcí je striktně velmi omezen, protože provoz se zvázán zákony. Vazbu prostředí získavájí i zvířata a lidé. K získání stavu prostředí nám slouží oči, hmat, sluch, ale například i čich a další\dots 
+Agenti mají většinou nějaké senzory, kterými pozorují okolní prostředí. Jako agenta v prostředí, můžeme například uvažovat samořídící auto, které má různé senzory, pomocí kterých se orientuje v prostoru (lidar, radar, kamery , atd\dots). Pro takového agenta je možné použít RL na jeho učení. Většinou není použito pouse RL, ale i další metody učení, tak že prostor akcí je striktně velmi omezen, protože provoz se zvázán zákony. Vazbu prostředí získavájí i zvířata a lidé. K získání stavu prostředí nám slouží oči, hmat, sluch, ale například i čich a další\dots 
+
+Informace ze senzorů můžeme nazvat vnitřními nebo také vlastními. Na druhé straně jsou vnější, které můžeme získat od ostatních agentů jako ucelenou informaci. I s příkladem jsou více popsány v \ref{monkey}.
 
 
 \section{Exploitation vs. Exploration}
@@ -103,9 +108,10 @@ Agenti v ML musí volit nejen takové akce, které optimalizují zisk, ale také
 
 
 \section{Metody RL}
+V této kapitole a především jejích podkapitolách popíši některé metody, které jsou v rámci RL používané a pokusím se najít původ a inspiraci a reálném světě.  
 
 
-\section{Omezení}
+
 
 \section{Příklady RL}
 \label{sec:priklady}
@@ -116,6 +122,7 @@ Agenti v ML musí volit nejen takové akce, které optimalizují zisk, ale také
 \cite{openAI}
 \cite{baker2019emergent}
 \subsection{monkeys}
+\label{monkey}
  \cite{monkeyExp}
  \cite{hamel1996competing}
 
@@ -126,7 +133,7 @@ The documentation for \verb+natbib+ may be found at
 
 
 \subsection{Závěr}
-
+RL je velice populární metoda ve strojovém učení, ovšem jako všechny ostatní metody není všehschopná a má vlastní omezení a limity. První je především nutnost specifikovat množinu akcí, kterou jsou schopni agenti vykonávat a která je většinou neměnná. Dále je potřeba přesně specifikovat cíl. Může se stát, že problém bude tak komplexní, že bude problém cíl specifikovat.
 todo: závěr taky bude 
 
 
