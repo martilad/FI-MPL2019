@@ -17,7 +17,8 @@
 
 \title{Reinforced learning}
 
-
+\widowpenalty10000
+\clubpenalty10000
 \author{
   Ladislav Martínek\\
   \texttt{martilad@fit.cvut.cz} \\
@@ -33,16 +34,6 @@
   %% Affiliation \\
   %% Address \\
   %% \texttt{email} \\
-  %% \And
-  %% Coauthor \\
-  %% Affiliation \\
-  %% Address \\
-  %% \texttt{email} \\
-  %% \And
-  %% Coauthor \\
-  %% Affiliation \\
-  %% Address \\
-  %% \texttt{email} \\
 }
 
 \begin{document}
@@ -54,27 +45,79 @@ todo: write abstract
 
 
 % keywords can be removed
-\keywords{First keyword \and Second keyword \and More}
+\keywords{reinforcment learning \and zpětnovazební učení \and machine learning \and strojové učení \and posilové učení \and umělá inteligence}
 
 
 \section{Úvod}
-todo: write uvod
+Když se zkusíme zamysled nad tím jak jsme se odmalička učili a jak učení probíhalo, tak nás jako první metoda napadne právě Reinforcment learning (dále budu používat zkratku RL), neboli také učení na základě zpětné vazby. Určitě jsme učení takto přímo nenazývali, ale zpětnou vazbu dostáváme odmalička. Zpětnou vazbou může být například když cítíme chlad pokud se dotkneme sněhu, které máme přímo od prostředí. Další zpětnou vazbu můžeme dostavat například od rodičů a určitou zpětnou vazbu od prostředí dostaváme téměř neustále. Na tomto způsobu je založena jedno z hlavních paradigmat strojového učení. V tomto případě nejsou systému poskytnutnuto žádné mapovaní správných odpovědí na daný vstup nebo interakci. Učený subjekt musí vyzkoušet, co mu přinese nějvětší užitek. V této práci popíši RL ve strojovém učení i s problémy, se kterými potýká, a podobnosti a odlišnosti s tímto učením u lidí. 
 
 
 \section{Reinforcment learning}
 \label{sec:headings}
 
-See Section \ref{sec:headings}.
+Reinforcment learning v češtině také zpětnovazebné učení nebo posilové učení je způsob učení na základě odezvy a zpětné vazby z prostředí, ve které se učený subjekt pohybuje. 
 
-\subsection{popis}
+Teorie RL poskytuje normativní pohled, který je hluboce zakořeněn v psychologickém a neurovědním pohledu na chování zvířat, jak mohou optimalizovat svoje chování a kontrolovat prostředí \cite{mnih2015human}. 
 
-%\begin{equation}
-%\xi _{ij}(t)=P(x_{t}=i,x_{t+1}=j|y,v,w;\theta)= {\frac {\alpha _{i}(t)a^{w_t}_{ij}\beta _{j}(t+1)b^{v_{t+1}}_{j}(y_{t+1})}{\sum _{i=1}^{N} \sum _{j=1}^{N} \alpha _{i}(t)a^{w_t}_{ij}\beta _{j}(t+1)b^{v_{t+1}}_{j}(y_{t+1})}}
-%\end{equation}
+V rámci strojového učení se jedná přímo o jedno z paradigmat učení, které je v poslední době vělice popularní současně s tím jak roste výkon počítačů a je možné simulovat agenty a prostředí mnohem lépe. Na stejné úrovni rozdělení jako RL stojí učení s učitelem (angl. supervised learning) a učení bez učitele (angl. unsupervised learning). Oproti učení s učitelem (jeden z nejčastějších přístupů ve strojovém učení) není v RL poskytnut popis jednotlivých situací, ke kterým je určena ta správná akce. Rozdíl oproti učení bez učitelel je ten, že učení bez učitele slouží většinou k nalezení struktury v neoznačených datech \cite{sutton1998introduction}.
 
-\section{Examples of citations, figures, tables, references}
-\label{sec:others}
-\cite{kour2014real,kour2014fast} and see \cite{hadash2018estimate}.
+V RL zpětnou vazbu nejčastěji představují odměny nebo tresty. Učení je možné buď s obojím nebo například jen s odměnami nebo tresty. Učený subjekt se snaží o maximalizaci takové odměny nebo minimalizaci trestů. 
+
+Podle \cite{sutton1998introduction} učený agent musí být schopen vnímat stav svého prostředí a musí být schopen provádět akce, které toto prostředí mění. Celkově je také agent řízen svými cíly, kterých se snaží dosáhnout a může k tomu využít různých cest, které můžou vytvořit různé cesty pro různé agenty.
+
+Ze všech forem ML, RL je nejblíže tomu, ja se reálně učí lidé a ostatní zvířata. Mnoho postupů a myšlenka RL byla původně inspirována právě biologický systémem učení \cite{sutton1998introduction}. I ostatní části ML lze nalézt v biologickém systému, ale ty jsou především tom našel lidském, kde můžeme mít například učení s učitelem, kde se učime z příkladů, kde známe správné výsledky. Toto jsou pouze malé části, protože za nějakou takto naučenou látku jsme ve škole byly odměněni známkou nebo body. Dostali jsme zpětnou vazbu jestli zpusob jakým jsme se učili nebo kolik jsme tomu věnovali byl dostatečný a správný, či nikoliv.
+
+ 
+\section{Reprezentace a simulace RL}
+
+Když se podíváme na RL v našem životě, tak lze hodně jednoduše zobrazit pomocí obrázku \ref{zavislostKnnRec}. Většinu částí jsem již zmínil v \ref{sec:headings}. Ale v této části popíši jednotlivé součásti RL a jejich rozdíly mezi reálným světem a jejich simulací v počítači. Bude se jednat o agenta a prostředí, v rámci kterých popíši interpretace stavu prostředí a odměny pro agenta.
+Dále agent musí mít nějaké cíle, kterých se snaží dosáhnout. Tyto cíle musí být staženy vždy na daný stav prostředí, ve kterém se nachází. Ty jsou nutné proto, aby agent měl nějaký směr (volbu akcí), kterým se vydat. 
+
+\subsection{Prostředí}
+
+\begin{figure}\centering
+	\includegraphics[width=0.25\textwidth]{img/RLdiagram}
+ 	\caption[]{Clasický scénář RL. Agent prování akce v prostředí, které je nějakým způsobem interpretováno. Z interpretace je odvozena odměna pro agenta a reprezentace stavu prostředí, který má agent k dispozici. \cite{pict} }\label{zavislostKnnRec}
+ \end{figure}	
+
+
+Ve strojovém učení (dále jen ML) je v \cite{sutton1999reinforcement} jako první zmíněna funkce generující odměnu pro agenta (nutná součást prostředí), protože každý agent je na základě svých akcích odměnován. V ML je nejčastěji odměnou celé číslo, které se spjato s nějakým stavem a akcí. Stavem je popsáno aktuální prostředí, které muže daný agent pozorovat např. rozehraná šachová partie. Ja je vidět na oprázku \ref{zavislostKnnRec}, stav je nějak interpretován a to nejčastěji nějakými senzory agenta. 
+
+Odměna pro agenta je vždy svázána se stavem a konkrétní akcí. Tento koncept stavů a akcí je velice obecný. Akce je  agentovo jakékoliv rozhodnutí, které agent může vykonat s stav je jakýkoliv fakt, který může vzít agent v úvahu při rozhodování \cite{sutton1999reinforcement}. 
+
+V ML je ohodnocení poměrně omezené oproti reálnému světu. Například při výcviku psa by jako pozitivní vazba pochvala příliž nefungovala, ale na nějaký pamlsek už reaguje většina psů. U lidí je množina možných odměn ještě rozsáhlejší a může být představována slovní pochvalou, finanční odměnou a mnoho dalšími. Vytvořit funkci v ML, která by toto zahrnovala je velice optížné až nemožné. Prostředí s odměnami je omezováno a většinou vždy specializováno na pár konkrétních cílů, kterých se daří dosahovat po učení. Více v kapitole \ref{sec:priklady}.
+
+
+\subsection{Agent}
+Agent je součástí konkrétního prostředí. Hlavním cílem agenta je mapování možných stavů na možné akce \cite{sutton1999reinforcement}. V ML může být implementováno například tabulkou nebo měnícím se prostředím. Jedná se asociace, které známe i z našeho života. 
+
+Agenti mají většinou nějaké senzory, kterými pozorují okolní prostředí. Jako agenta v prostředí můžeme například uvažovat samořídící auto, které má různé senzory, pomocí kterých se orientuje v prostoru (lidar, radar, kamery , atd\dots). Pro takového agenta je možné použít RL na jeho učení. Většinou není použito pouse RL, ale i další metody učení, tak že prostor akcí je striktně velmi omezen, protože provoz se zvázán zákony. Vazbu prostředí získavájí i zvířata a lidé. K získání stavu prostředí nám slouží oči, hmat, sluch, ale například i čich a další\dots 
+
+
+\section{Exploitation vs. Exploration}
+Jak se píše v \cite{kaelbling1996reinforcement}, jeden z hlavních rozdílů mezi učením s učitelem a RL je, že v případě RL musí agent explicitně prozkoumávat prostředí akcemi. Potom je zasádní jaký udělá kompromis. Zdali bude prostředí velmi aktivně prozkoumávat (exprorace), ale za cenu mnohých neúspěchů nebo v případě, že nalezne akce, ze kterých plyne nějaký profit a začne se zaměřovat na tyto akce a provádět tzv. exploitaci. Může existovat mnoho různých akcí, které by mohli být optimálnější, ale pokud bude prozkoumávat pouze okolí těchto, tak na ně nikdy neodsáhne. Uvízne v tzv. lokálním maximu.
+
+Když se podíváme do reálného světa můžeme vidět, že i tyto dva přístupy jsou zde vidět. Je to pozorovatelné jak mezi zvířaty tak mezi lidmi. Existují takový jedinci, kteří zkoušejí vše, co se jim nabídne nebo se snaží co nejvíce prozkoumat možnosti a hranice. K přirovnání k vedoucím manažerským pozicím to může být například způsob vedení firmy. Vysoká explorace může zapříčinit vysoký zisk, ale také je stejná možnost rychlého pádu při radikálních změnách směřování firmy a hledání optimální cesty. Na druhou stranu exploitace může pomoci upevnit pozici na konkrétním segmentu a stavu, ale růst firmy například již nebude tak rychlý, jakýho my se mohlo třeba dosáhnout vysokou explorací.
+
+Agenti v ML musí volit nejen takové akce, které optimalizují zisk, ale také akce, které dovolí dostatečné prozkoumání prostoru. Každá akce musí být několikrát vyzkoušena, aby se zíkal statictický odhad její očekávané odměny \cite{sutton1998introduction}. V ML jsou metody využity především k řešení úloh, kde je žádoucí dosáhnout co nejlepšího výsledku, narozdíl od reálného světa, kde nemusí být ve výsledku takový problém uváznutí v lokálním maximu. Protože z pozice osoby (agenty) můžou být také akce optimální. Osoba je například spokojená, záleží pouze na cíli, který osoba má a může mít mnoho podob. Pro potřeby ML, kde je cíl a učel známý nám tedy explorace může pomoc se z takového lokálnímo maxima dostat. 
+
+
+\section{Metody RL}
+
+
+\section{Omezení}
+
+\section{Příklady RL}
+\label{sec:priklady}
+
+\subsection{human-level control}
+\cite{mnih2015human}
+\subsection{Open ai}
+\cite{openAI}
+\cite{baker2019emergent}
+\subsection{monkeys}
+ \cite{monkeyExp}
+ \cite{hamel1996competing}
 
 The documentation for \verb+natbib+ may be found at
 \begin{center}
@@ -82,27 +125,11 @@ The documentation for \verb+natbib+ may be found at
 \end{center}
 
 
-
 \subsection{Závěr}
 
 todo: závěr taky bude 
- 
-\begin{figure}
-  \centering
-  \fbox{\rule[-.5cm]{4cm}{4cm} \rule[-.5cm]{4cm}{0cm}}
-  \caption{Sample figure caption.}
-  \label{fig:fig1}
-\end{figure}
-
 
 
 \bibliographystyle{csn690}  
-\bibliography{references}  %%% Remove comment to use the external .bib file (using bibtex).
-%%% and comment out the ``thebibliography'' section.
-
-
-%%% Comment out this section when you \bibliography{references} is enabled.
-
-
-
+\bibliography{references}  
 \end{document}
