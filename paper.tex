@@ -108,7 +108,27 @@ Agenti v ML musí volit nejen takové akce, které optimalizují zisk, ale také
 
 
 \section{Metody RL}
-V této kapitole a především jejích podkapitolách popíši některé metody, které jsou v rámci RL používané a pokusím se najít původ a inspiraci a reálném světě.  
+V této kapitole a především jejích podkapitolách popíši některé metody, které jsou v rámci RL používané. Tyto metody lze podle knihy \cite{sutton1998introduction} rozdělit na metody, kde jsou akcí a stavů není tolik a je možné je reprezentovat tabulkou. Tyto metody sjou schopny většinou nalézt přesné řešení v dáne množině akcí a stavů. Na druhé  raně jsou aproximační metody, které většinou najdou pouze přibližné řešení, ale za to je možné je použít na mnohem větší problémy. 
+
+
+\subsection{Dynamické programování}
+Dynamické programování je první z method pro řešení RL. Problém je formulován jako Markovův rozhodovací proces, na kterém je možné dynamické programování použít. Markovův proces je proces, který se skladá z mnnožiny stavů, akcí, pravděpodobnosti, že ve stavu $s$ bude provedena akce $a$ a okamžitý užitek po přechodu do nového stavu pro provedení konkrétní akce na současném stavu \cite{sutton1998introduction}. 
+
+Dynamické programování je popsané v \cite{sutton1998introduction} a předpokladáme pro něj konečnou množinu stavů a akcí. V opačném případě je mroblém reprezentace v konečné paměti. Dynamické programování je založeno na principu, že podstrategie optímální strategie je opět optimální. Toto není použitelné na jakoukoliv úlohu, ale pro ty, kde platí, lze využít dynamické programování. 
+
+V dynamickém programování jsme schopni výsledek většího podproblémuvyjadřit pomocí menších problému, které sme už jednou vyřešili, není tedy nutné některé jednoduché kony řešit opakovaně. V tomto je přímo vidět učení z normalního světa. Příklad mě napadá třeba, když dáme dítěti šroubovák a nějaké šroubky a prostor. Zaa chvíli se naučí jak se šroubovákem pracovat a tuto podúlohu poté použije v jakém koliv věku, když si bude stavět sřínku, ale člověk se nebude opakovaně učit šroubovat. Přesně tohodle principu je využito i při dynamickém programování, kde se výhradně pracuje s tabulkou, která je na základě stavů daného prostředí a možných akcí vypňována, až je dosaženo požadováného cíle.
+
+\subsection{Monte carlo metody}
+Monte carlo metody jsou stochastické metody, které jsou hojně využívané tam, kde není možné prozkoumávat celý stavový prostor souvisle. Narozdíl od přechozích části, zde nepředpokládáme znalost všech stavů a akcí, celkovou znalost prostředí. Monte carlo metody vyžadují pouze zkušenost, nějaký vzorek sekvencí stavů, akcí a odměn z aktuální interakce s prostředím \cite{sutton1998introduction}. Učení ze zkušenosti je velice překvapujícíc protože nevyžaduje zznalost dyamiky prostředí a přesto může dosáhnout dobrého řešení. I zde potřebujeme znát model, ale potřebujeme ho pouze ke generování ukázkových přechodů a nikoliv k rozdělení pravděpodobnosti do tabulky všech možných přechodů jako tomu bylo u dynamického programování. 
+
+Je přimovyužito průmerovaní odměn za danou akci v daném prostředí. Model se učí z oddměn, které dostává. V monte carlo metodách je používána určitá složka náhody, která slouží k výběru akcí a prozkoumání prostoru s tím, že je upravována podle zkušenosti jaké bylo dosaženo. Akce bez odměny mohou být například jedno zopakovány a vyzkoušeny ale průmerováním budou velmi rychle vyloučeny. Pokud učíme psa, tak ho taky zkušeností naučíme, že třeba nesmí vyhrabávat koš, kde za takovou akci přijde ještě trest, tak již takové chování nikdy nezopakuje stejně tak se bude chovat agent v případě učení pomocí monte carlo metod. Více je videt v kapitole \ref{sec:priklady}. 
+
+
+\subsection{Temporal difference (TD) learning}
+TD je kombinací metod monte carlo učení a dynamického programování. Stejně jako v monte carlo metodách se může učit přímo ze zkušeností, tak také aktualizují tabulku částečných naučených akcích jako v dnamickém programování \cite{sutton1998introduction}. Algoritmy se mohou i navzájem prolínat a využívá se vždy silných stránek daneho algoritmu. TD upravují a vybírají akce podle toho jaký bude mít výsledek do budoucnosti, podle přechozích zjištěních a ještě dříve než je konečný výsledek znám. Monte carlo metody naopak rozhodují až podle výsldku, kterého dosáhly.
+
+
+\subsection{Aproximační metody RL}
 
 
 
