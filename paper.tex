@@ -15,7 +15,7 @@
 \usepackage{lipsum}
 \usepackage[pdftex]{graphicx} 
 
-\title{Reinforced learning}
+\title{Reinforcement learning}
 
 \widowpenalty10000
 \clubpenalty10000
@@ -40,44 +40,44 @@
 \maketitle
 
 \begin{abstract}
-todo: write abstract
+V této práci je posáno jedno ze tří paradigmat strojového učení a to reinforcement learning -- zpětnovazební učení. Dalšími jsou: učení s a bez učitele. Nejprve je posána samotná metoda a specifikovány její hlavní časti, které jsou klíčové pro simulaci na počítačích. Dále je popsán kompromis mezi exploitatací a explorací a nejčastěji používané metody v tomto přístupu k učení. Ke konci práce jsou popsány příklady, na kterých je zpětnovazební učení využito jako hlavní princip. Ve všech částech jsou metody dávány do souvislostí s učením v reálném světě a jak je z něj přístup ve strojovém učení je z něj inspirován.
 \end{abstract}
 
 
 % keywords can be removed
-\keywords{reinforcment learning \and zpětnovazební učení \and machine learning \and strojové učení \and posilové učení \and umělá inteligence}
+\keywords{reinforcement learning \and zpětnovazební učení \and machine learning \and strojové učení \and posilové učení \and umělá inteligence}
 
 
 \section{Úvod}
-Když se zkusíme zamysled nad tím jak jsme se odmalička učili a jak učení probíhalo, tak nás jako první metoda napadne právě Reinforcment learning (dále budu používat zkratku RL), neboli také učení na základě zpětné vazby. Určitě jsme učení takto přímo nenazývali, ale zpětnou vazbu dostáváme odmalička. Zpětnou vazbou může být například když cítíme chlad pokud se dotkneme sněhu, které máme přímo od prostředí. Další zpětnou vazbu můžeme dostavat například od rodičů a určitou zpětnou vazbu od prostředí dostaváme téměř neustále. Na tomto způsobu je založena jedno z hlavních paradigmat strojového učení. V tomto případě nejsou systému poskytnutnuto žádné mapovaní správných odpovědí na daný vstup nebo interakci. Učený subjekt musí vyzkoušet, co mu přinese nějvětší užitek. V této práci popíši RL ve strojovém učení i s problémy, se kterými potýká, a podobnosti a odlišnosti s tímto učením u lidí. 
+Když se zkusíme zamyslet nad tím, jak jsme se odmalička učili, a jak učení probíhalo, tak nás jako první metoda napadne právě reinforcement learning (dále budu používat zkratku RL), neboli také učení na základě zpětné vazby. Určitě jsme učení takto přímo nenazývali, ale zpětné vazby dostáváme odmalička. Zpětnou vazbou může být například: pocit chlady pokud se dotkneme sněhu. Takovou vazbu máme přímo od prostředí. Další zpětnou vazbu můžeme dostávat například od rodičů a určitou zpětnou vazbu od prostředí dostáváme téměř neustále. Na tomto způsobu je založeno i~jedno z hlavních paradigmat strojového učení. V tomto případě není systému poskytováno žádné mapovaní správných odpovědí na daný vstup nebo interakci. Učený subjekt musí vyzkoušet, co mu přinese nějvětší užitek (největší odměnu). V této práci popíši RL ve strojovém učení i~s~problémy, se kterými potýká, a podobnosti a odlišnosti proti tomuto učení v realném světě. 
 
 
 \section{Reinforcment learning}
 \label{sec:headings}
 
-Reinforcment learning v češtině také zpětnovazebné učení nebo posilové učení je způsob učení na základě odezvy a zpětné vazby z prostředí, ve které se učený subjekt pohybuje. 
+Reinforcment learning, v češtině také zpětnovazebné učení nebo posilové učení, je způsob učení na základě odezvy a~zpětné vazby z prostředí, ve které se učený subjekt pohybuje. 
 
-Teorie RL poskytuje normativní pohled, který je hluboce zakořeněn v psychologickém a neurovědním pohledu na chování zvířat, jak mohou optimalizovat svoje chování a kontrolovat prostředí \cite{mnih2015human}. 
+Teorie RL poskytuje normativní pohled, který je hluboce zakořeněn v psychologickém a neurovědním pohledu na chování zvířat, jak mohou subjekty optimalizovat svoje chování a kontrolovat prostředí \cite{mnih2015human}. 
 
-V rámci strojového učení se jedná přímo o jedno z paradigmat učení, které je v poslední době vělice popularní současně s tím jak roste výkon počítačů a je možné simulovat agenty a prostředí mnohem lépe. Na stejné úrovni rozdělení jako RL stojí učení s učitelem (angl. supervised learning) a učení bez učitele (angl. unsupervised learning). Oproti učení s učitelem (jeden z nejčastějších přístupů ve strojovém učení) není v RL poskytnut popis jednotlivých situací, ke kterým je určena ta správná akce. Rozdíl oproti učení bez učitelel je ten, že učení bez učitele slouží většinou k nalezení struktury v neoznačených datech \cite{sutton1998introduction}.
+V rámci strojového učení se jedná přímo o jedno z paradigmat učení, které je v poslední době velice populární současně s tím, jak roste výkon počítačů a je možné simulovat složitější agenty a prostředí. Na stejné úrovni rozdělení jako RL stojí učení s učitelem (angl. supervised learning) a učení bez učitele (angl. unsupervised learning). Oproti učení s~učitelem (jeden z nejčastějších přístupů ve strojovém učení) není v RL poskytnut popis jednotlivých situací, ke kterým je by byla přesně určena ta správná akce. Rozdíl oproti učení bez učitelel je ten, že učení bez učitele slouží většinou k~nalezení struktury v neoznačených datech \cite{sutton1998introduction}.
 
-V RL zpětnou vazbu nejčastěji představují odměny nebo tresty. Učení je možné buď s obojím nebo například jen s odměnami nebo tresty. Učený subjekt se snaží o maximalizaci takové odměny nebo minimalizaci trestů. 
+V RL zpětnou vazbu nejčastěji představují odměny nebo tresty. Učení je možné buď s obojím nebo například jen s~odměnami nebo tresty. Učený subjekt se snaží o maximalizaci takové odměny nebo minimalizaci trestů. 
 
 Podle \cite{sutton1998introduction} učený agent musí být schopen vnímat stav svého prostředí a musí být schopen provádět akce, které toto prostředí mění. Celkově je také agent řízen svými cíly, kterých se snaží dosáhnout a může k tomu využít různých cest, které můžou vytvořit různé cesty pro různé agenty.
 
-Ze všech forem ML, RL je nejblíže tomu, ja se reálně učí lidé a ostatní zvířata. Mnoho postupů a myšlenka RL byla původně inspirována právě biologický systémem učení \cite{sutton1998introduction}. I ostatní části ML lze nalézt v biologickém systému, ale ty jsou především tom našel lidském, kde můžeme mít například učení s učitelem, kde se učime z příkladů, kde známe správné výsledky. Toto jsou pouze malé části, protože za nějakou takto naučenou látku jsme ve škole byly odměněni známkou nebo body. Dostali jsme zpětnou vazbu jestli zpusob jakým jsme se učili nebo kolik jsme tomu věnovali byl dostatečný a správný, či nikoliv.
+Ze všech forem ML je RL nejblíže tomu, jak se reálně učí lidé a ostatní zvířata. Mnoho postupů v RL bylo původně inspirováno právě biologický systémem učení \cite{sutton1998introduction}. I ostatní části ML lze nalézt v biologickém systému učení, ale ty jsou především tom našel lidském, kde můžeme mít například učení s učitelem. Účíme z příkladů, kde známe správné výsledky. Toto jsou pouze malé části, protože za nějakou takto naučenou látku jsme ve škole byly odměněni známkou nebo body. Dostali jsme zpětnou vazbu, jestli způsob jakým jsme se učili byl správný nebo věnovaný čas dostatečný, či nikoliv.
 
  
 \section{Reprezentace a simulace RL}
 
-Když se podíváme na RL v našem životě, tak lze hodně jednoduše zobrazit pomocí obrázku \ref{zavislostKnnRec}. Většinu částí jsem již zmínil v \ref{sec:headings}. Ale v této části popíši jednotlivé součásti RL a jejich rozdíly mezi reálným světem a jejich simulací v počítači. Bude se jednat o agenta a prostředí, v rámci kterých popíši interpretace stavu prostředí a odměny pro agenta.
+Když se podíváme na RL v našem životě, tak lze hodně jednoduše zobrazit pomocí obrázku \ref{zavislostKnnRec}. Většinu částí jsem již zmínil v části \ref{sec:headings}. Ale v~této části popíši jednotlivé součásti RL a~jejich rozdíly mezi reálným světem a jejich simulací v~počítači. Bude se jednat o~agenta a~prostředí, v~rámci kterých popíši interpretace stavu prostředí a odměny pro agenta.
 Dále agent musí mít nějaké cíle, kterých se snaží dosáhnout. Tyto cíle musí být staženy vždy na daný stav prostředí, ve kterém se nachází. Ty jsou nutné proto, aby agent měl nějaký směr (volbu akcí), kterým se vydat. 
 
 \subsection{Prostředí}
 
 \begin{figure}\centering
 	\includegraphics[width=0.25\textwidth]{img/RLdiagram}
- 	\caption[]{Clasický scénář RL. Agent prování akce v prostředí, které je nějakým způsobem interpretováno. Z interpretace je odvozena odměna pro agenta a reprezentace stavu prostředí, který má agent k dispozici. \cite{pict} }\label{zavislostKnnRec}
+ 	\caption[]{Clasický scénář RL. Agent prování akce v prostředí, které je nějakým způsobem interpretováno. Z~interpretace je odvozena odměna pro agenta a reprezentace stavu prostředí, který má agent k dispozici. \cite{pict} }\label{zavislostKnnRec}
  \end{figure}	
 
 
@@ -92,6 +92,7 @@ Například při výcviku psa by jako pozitivní vazba pochvala příliž nefung
 
 
 \subsection{Agent}
+\label{agent}
 Agent je součástí konkrétního prostředí. Hlavním cílem agenta je mapování možných stavů na možné akce \cite{sutton1999reinforcement}. V ML může být implementováno například tabulkou nebo měnícím se prostředím. Jedná se asociace, které známe i z našeho života. 
 
 Agenti mají většinou nějaké senzory, kterými pozorují okolní prostředí. Jako agenta v prostředí, můžeme například uvažovat samořídící auto, které má různé senzory, pomocí kterých se orientuje v prostoru (lidar, radar, kamery , atd\dots). Pro takového agenta je možné použít RL na jeho učení. Většinou není použito pouse RL, ale i další metody učení, tak že prostor akcí je striktně velmi omezen, protože provoz se zvázán zákony. Vazbu prostředí získavájí i zvířata a lidé. K získání stavu prostředí nám slouží oči, hmat, sluch, ale například i čich a další\dots 
@@ -130,32 +131,58 @@ TD je kombinací metod monte carlo učení a dynamického programování. Stejn�
 
 \subsection{Aproximační metody RL}
 
-
+Tyto metody jsou podrobněji rozepsány v \cite{sutton1998introduction}. Zde jen stručně popíši co metody představují. Jsou rozšířením předchozích metod pro práci s libovolně velkými prostory stavů a akcí. V takovém prostoru nemůžeme očekávat, že najdeme optimální řešní pro nás problém, ale můžeme se mu alspoň příblížit s omezenými výpočetními prostředky. Problém představuje jednak jak uložit tak velké tabulky do paměti, ale také jak takové tabulky vypnit v konečném čase. V takto složitém prostředí zřejmě nikdy neuvidíme dvakrát úplně stejný stav. Můsíme například umět najít podobnosti mezi stavy. Klíčové je v tomto učení generalizace neboli zobecnění. Jednotlivé zobecnující funkce můžou být již například výsledkem nějakého učení s učitelem a my je například využijeme k zjištění co je na obrázku. Takže to může být například detekce objektů. Dále se systém musí naučit reagovat na jednotlivé objekty pokud jsou na obrázku. Takto se snaží postupně učit reagovat na podměty, ale ne na úplně každý, ale zobecňovat své reakce pro maximalizaci odměny. 
 
 
 \section{Příklady RL}
 \label{sec:priklady}
+V této části uvedu příklady, na které jsem narazil a je vidět na nich vidět, kde se všude může RL uplatnit. Na některé jsem narazil již dříve v rámci ML. První se podívám na učení pomocí RL, kde je simulován člověk při ovládání hry. Druhý příklad je čení chování postaviček pomocí RL. A poslední příklad naopak nepřichází z oboru ML, ale učení zvířat, konkrétně opic.
 
-\subsection{human-level control}
-\cite{mnih2015human}
-\subsection{Open ai}
-\cite{openAI}
-\cite{baker2019emergent}
+\subsection{Human-level control}
+V článku \cite{mnih2015human} popisují vytvoření a trénování modelu pomocí RL. Tento příklad se liší od mnoha příkladů na RL, protože agent hry ovládá přes stejné rozhraní jako člověk a s ním je také srovnáván v různých hrách. V článku se jedná o hry Atari 2600 a stejné rozhraní.
+
+Cílem bylo vytvořit agenta, který by si uměl poradit s mnoha různými ukoly v různých hrách. K učení je využito RL a také konvoluční neuronová síť, která se využívá především pro zpracování obrazových dat. Výstupem sítě jsou ovládací prvky joisticku. Učení probíhalo pomocí zpětné vazby, kterou bylo dané skoré a to bylo využito k úpravě vah a přizpůsobení algoritmu. 
+
+Jako vstup byla použita kamera s rozlišením 210 x 160 pixelů. Algoritmus byl tedy schopný se učit z nepříliš kvalitních obrazových dat a scóre jako zpětné vazby. V žádné hře nebyly použity žádné jiné informace. 
+
+V článku jsou prezentovány výsledky v procentech jako porovnání. 0 \% je pro náhodně volené akce a 100 \% pro hráče. Není jasné jakých kvalit dosahovat lidký hráč, ale i přes to je algoritmu podařilo přibližně v polovině her porazit lidského hráče. Nějlepších výsledků dosáhnul ve hře PinBall, kde byl na 2539 \% a velice rychle se slgoritmus naučil nějakou optimální taktiku. Rychleji se učil hry, kdy nebylo potřeba tak velké koordinace moc herních prvků. 
+
+Takoé nebyla zmíněna délka učení pro takové výsledky, ale bylo by zajimavé srovna rychlost učení dítěte a algoritmu, jak by se vyvíjeli jejich skóre a učili se ovládat konzoli a hledali optimální cesty v jednotlivých hrách. V članků bylo ukázáno, že RL je možné dobře využít při učení sofwarového agenta a jeden agent se dokázal jen vylepšujícím se skóre naučit hrát různé jednoduché hry. 
+
 \subsection{monkeys}
 \label{monkey}
- \cite{monkeyExp}
- \cite{hamel1996competing}
+Experiment byl poprvé zmíněn v \cite{hamel1996competing}. Není vůbec jasné jestli byl experiment proveden a nebo ne, ale to není tak důležité, je zajímavé jak se opice učili, kde na žáčáky to byla právě zpětná vazba na akci, na které je RL založeno.
 
-The documentation for \verb+natbib+ may be found at
-\begin{center}
-  \url{http://mirrors.ctan.org/macros/latex/contrib/natbib/natnotes.pdf}
-\end{center}
+Při experimentu bylo umístěno 5 opic do místnosti, kde byl žebřík pomocí kterého se dalo dosáhnout na banány. Samozřejmě na žáčátku se první opice vydala pro banány, ale všechny byly skropeny studenou vodou, která představovala zpětnou vazbu. Zanedlouho se naučili, že pro baány se nesmí. V tento moment byla vyměněna jedna opice. Nová opece se vydala okamžitě k žebříku, ale ostatní jí okamžitě zadržely a stáhly, tak se naučila, že na žebřík pro banány se nesmí. Takto byly postupně vyměněny všechny opice, ale tato naučená zkušenost zůstala. 
+
+Pokud byl experiment pravý, tak je velice zajímavé, jak se dokázala naučená zkušenost uchovat a předat dále i na jedince, kteří nezažili přímo zpětnou vazbu. Toto sdíle zkušeností ve skupině je vidět na dalším příklady, kde byly schopni týmové práce a týká už se přímo ML a RL.
 
 
-\subsection{Závěr}
-RL je velice populární metoda ve strojovém učení, ovšem jako všechny ostatní metody není všehschopná a má vlastní omezení a limity. První je především nutnost specifikovat množinu akcí, kterou jsou schopni agenti vykonávat a která je většinou neměnná. Dále je potřeba přesně specifikovat cíl. Může se stát, že problém bude tak komplexní, že bude problém cíl specifikovat.
-todo: závěr taky bude 
+\subsection{Open ai}
+\label{openai}
+Tento experiment je popsaný na \cite{openAI} a je k němu i mnohem více technický članek \cite{baker2019emergent} a částečně je také dohledatelná implementace použitých algoritmů. Tento experment je mnohem novější a byl publikován v září 2019 a k přístupu RL z prvního článku, přídává také myšlenky z experimentu druhého. Jsou využity i vnější informace k učení, jak bylo zmíněno už v \ref{agent}. Jsou to imformace od ostatních agentů, kteří jsou s ním v týmu. Agenti tak mohou vytvářet týmové strategie a předat své zkušenosti ostatním agentům. 
 
+Je daná mapa, kde jsou nějaké přeměnty rampy, bedny a posuvné stěny. Na mapě se pohybují dva týmy postaviček -- červení a modrý. Tito agenti mají určený cíle. Modrý nesmí být vidět napřímo červeným a červený musí vidět modrého a za tyto akce jsou odměněny. Modří mají na začátku čas si mapu připravit. Zde je k učení využito také pouze RL s tím, že agenti v týmů sdílejí naučené dovednosti. 
+
+Agentům nebyla dána žádná informace pro to, že mají s objekty hýbat nebo spolupracovat, pouze cíle zmíněné výše. Odměna byla 1 pokud nebyli modří vidět a -1 pokud je dokazali červení najít a naopak pro červené. Agenti při učení dokázali tvořit různé strategie a vždy využít prostředí. 
+
+V článku je zmíneno několik strategií, které se postupně agenti učili, já zde zmínít jednu. Na mapě je místnost se dvěma dveřma, krabicemi, kterými lze dveře blokovat a rampou, pomocí které lze přeskočit stěnu. Postup učení byl takový, že agenti se nejprve naučili zabarykádovat v místnosti, aby na ně červení nemohli. 
+
+Tady je krásně vidět, že učení probíhá pouze pokud je nutnost odměny, aby byla dostatečná motivace se učit nové věci. V moment, kdy dostali modří odměnu, když se na ně červení nedostali, tak se neučili nic nového a byly s  odměnou spokojeni, ale červení odměnu přestali dostávat a tím bylo posunuto jejich učení. Postupně se naučili použít rampu k tomu, aby přeskočili zeď a odměnu dostali oni. 
+
+Podobné chování lze pozorovat i v biologickém světě. Pes vždy bude hledat tu nejjednoduší cestu k odměně a pokud bude odměnu dostávat zadarmo nebude se učit nové věci. Tady je vidět přímá podobnost tohoto učení, kde je využito přímo principů z přírody.
+
+Při učení další iterací byla snaha modrých o získání odměny, naučili se tedy si rampu schovat. Čím více bylo iterací tím více koordinovali svoje pohyby tak, že každý měl rozdělen svůj úkol tak, aby se optimalizovala rychlost schování. 
+
+Učení tedy může být urychleno pokud se k učení přídá také souteživost a spolupráce íce agentů, odměnu může mít pouze jeden tým. Tímto může být učení ještě posíleno.
+
+\subsection{Závěr} 
+
+V práci jsem představil zpětnovazební učení (angl. reinforcement learning). Popsal jsem hlavní principy a popsal metody, které jsou využívány. V jednotlivých bodech jsem hledal souvislosti s biologickým učením, kde je učení pomocí zpětně vazby hlavním učícím mechanismem a odtud také bylo v ML inspirováno. Na závěr jsem představil příklady, které mě nejvíce zaujali.
+
+RL je velice populární metoda ve strojovém učení, ovšem jako všechny ostatní metody není všehoschopná, nehodí se na všechny typy úloh a má vlastní omezení a limity. První je především nutnost specifikovat funkci, která generuje odměnu a může být velice komplexní a tím složitější čím větší problém budeme chtít řešit. Dále je potřeba přesně specifikovat cíl. Může se stát, že problém bude tak komplexní, že bude problém cíl specifikovat nebo se může v průbehu času měnit na jiný skutečnostech. Obecně jsou však tyto metody používané a dosahuje se pomocí nich obdivuhodných výsledků například učení v kapitole \ref{openai}. 
+
+Tyto metody jsou více než jiné inspirovány biologickým učením v přírodě. Jakákoliv zpětná vazba nám pomáhá se učit. Narozdíl od počítačového RL, máme výhodu v možnosti přijímat i složitější zpětnou vazbu (prozatím). RL je jeden z přístupů v ML, který bude určitě dále rozvíjen (hlavně v možnosti reprezentovat kompleznější systémy) a bude použit jako základ pro vytváření složitějších autonomních systémů, kde může být doplněn dalšími metodami.
 
 \bibliographystyle{csn690}  
 \bibliography{references}  
